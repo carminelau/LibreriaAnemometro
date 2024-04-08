@@ -132,7 +132,7 @@ uint16_t ModbusRTUTemplate::send(uint8_t slaveId, TAddress startreg, cbTransacti
 void ModbusRTUTemplate::task() {
 	#if defined(ESP32)
 	//taskENTER_CRITICAL(&mux);
-	vTaskSuspendAll();
+	//vTaskSuspendAll();
 	#endif
     if (_port->available() > _len) {
         _len = _port->available();
@@ -141,7 +141,7 @@ void ModbusRTUTemplate::task() {
 	if (_len == 0) {
 		#if defined(ESP32)
     	//taskEXIT_CRITICAL(&mux);
-		xTaskResumeAll();
+		//xTaskResumeAll();
  		#endif
 		if (isMaster) cleanup();
 		return;
@@ -150,7 +150,7 @@ void ModbusRTUTemplate::task() {
 		if (millis() - t < _t) {
 			#if defined(ESP32)
     		//taskEXIT_CRITICAL(&mux);
-			xTaskResumeAll();
+			//xTaskResumeAll();
  			#endif
 			return;
 		}
@@ -165,7 +165,7 @@ void ModbusRTUTemplate::task() {
 			if (millis() - taskStart > MODBUSRTU_MAX_READMS) { // Prevent from task() executed too long
 				#if defined(ESP32)
     			//taskEXIT_CRITICAL(&mux);
-				xTaskResumeAll();
+				//xTaskResumeAll();
  				#endif
 				return;
 			}
@@ -173,7 +173,7 @@ void ModbusRTUTemplate::task() {
 	}
 	#if defined(ESP32)
     //taskEXIT_CRITICAL(&mux);
-	xTaskResumeAll();
+	//xTaskResumeAll();
  	#endif
 
     uint8_t address = _port->read(); //first byte of frame = address

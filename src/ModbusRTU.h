@@ -82,9 +82,12 @@ bool ModbusRTUTemplate::begin(T* port, int16_t txPin, int16_t rxPin, bool direct
 	begin(port, txPin, direct);
 	if (rxPin > 0) {
 		_rxPin = rxPin;
+		_direct = direct;
         pinMode(_rxPin, OUTPUT);
         digitalWrite(_rxPin, _direct?LOW:HIGH);
+		return true;
 	}
-}
+	return true;
+	}
 #endif
 class ModbusRTU : public ModbusAPI<ModbusRTUTemplate> {};
